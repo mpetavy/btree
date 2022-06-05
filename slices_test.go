@@ -48,33 +48,28 @@ func TestInsert(t *testing.T) {
 		values   []int
 		expected []int
 	}
-	tests := []test{}
-
-	for i := 0; i < 10; i++ {
-		tests = append(tests,
-			test{
-				slice:    []int{},
-				index:    0,
-				values:   []int{1, 2},
-				expected: []int{1, 2},
-			})
-		tests = append(tests,
-			test{
-				slice:    []int{1},
-				index:    1,
-				values:   []int{2, 3},
-				expected: []int{1, 2, 3},
-			})
-		tests = append(tests,
-			test{
-				slice:    []int{1},
-				index:    0,
-				values:   []int{2, 3},
-				expected: []int{2, 3, 1},
-			})
+	tests := []test{
+		test{
+			slice:    []int{},
+			index:    0,
+			values:   []int{1, 2},
+			expected: []int{1, 2},
+		},
+		test{
+			slice:    []int{1},
+			index:    1,
+			values:   []int{2, 3},
+			expected: []int{1, 2, 3},
+		},
+		test{
+			slice:    []int{1},
+			index:    0,
+			values:   []int{2, 3},
+			expected: []int{2, 3, 1},
+		},
 	}
 
-	for _, test := range tests {
+	for i, test := range tests {
 		t.Run(fmt.Sprintf("Insert %+v at %d", test.values, i), func(t *testing.T) {
 			Insert(&test.slice, test.index, test.values...)
 
