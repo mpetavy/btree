@@ -16,27 +16,29 @@ func init() {
 	common.Init(false, "1.0.0", "", "", "2022", "Btree tryout", "mpetavy", fmt.Sprintf("https://github.com/mpetavy/%s", common.Title()), common.APACHE, nil, nil, nil, run, 0)
 }
 
-type Entries[T constraints.Ordered] []T
+type Entries[T constraints.Ordered] struct {
+	values []T
+}
 
 func (entries *Entries[T]) BinarySearch(value T) (int, bool) {
 	if *useGo {
-		return slices.BinarySearch(*entries, value)
+		return slices.BinarySearch(entries.values, value)
 	}
 
 	low := 0
-	high := len(*entries) - 1
+	high := len(entries.values) - 1
 
 	for low <= high {
 		median := (low + high) / 2
 
-		if (*entries)[median] < value {
+		if entries.values[median] < value {
 			low = median + 1
 		} else {
 			high = median - 1
 		}
 	}
 
-	if low == len(*entries) || (*entries)[low] != value {
+	if low == len(entries.values) || entries.values[low] != value {
 		return low, false
 	}
 
@@ -46,15 +48,16 @@ func (entries *Entries[T]) BinarySearch(value T) (int, bool) {
 func (entries *Entries[T]) Insert(value T) {
 	index, _ := entries.BinarySearch(value)
 
-	*entries = append(*entries, value)
-	copy((*entries)[index+1:], (*entries)[index:])
-	(*entries)[index] = value
+	//Insert(&entries.values, index, value)
+	entries.values = append(entries.values, value)
+	copy(entries.values[index+1:], entries.values[index:])
+	entries.values[index] = value
 }
 
 func (entries *Entries[T]) Values() []T {
-	slice := make([]T, 0)
+	slice := make([]T, 0, len(entries.values))
 
-	for _, entry := range *entries {
+	for _, entry := range entries.values {
 		slice = append(slice, entry)
 	}
 

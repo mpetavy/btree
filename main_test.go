@@ -2,11 +2,13 @@ package main
 
 import (
 	"github.com/mpetavy/common"
+	"github.com/stretchr/testify/assert"
+	"sort"
 	"testing"
 )
 
 func TestEntries_Insert(t *testing.T) {
-	count := 50000
+	count := 100000
 
 	values := make([]int, 0)
 	for i := 0; i < count; i++ {
@@ -14,7 +16,7 @@ func TestEntries_Insert(t *testing.T) {
 	}
 
 	entries := Entries[int]{}
-	//slice := make([]int, 0)
+	slice := make([]int, 0)
 
 	for i := 0; i < count; i++ {
 		index := common.Rnd(len(values))
@@ -24,12 +26,13 @@ func TestEntries_Insert(t *testing.T) {
 
 		entries.Insert(value)
 
-		//slice = append(slice, value)
-		//sort.SliceStable(slice, func(i int, j int) bool {
-		//	return slice[i] < slice[j]
-		//
-		//})
-		//
-		//assert.Equal(t, slice, entries.Values())
+		slice = append(slice, value)
 	}
+
+	sort.SliceStable(slice, func(i int, j int) bool {
+		return slice[i] < slice[j]
+
+	})
+
+	assert.Equal(t, slice, entries.Values())
 }
