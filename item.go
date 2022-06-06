@@ -1,16 +1,15 @@
 package main
 
-import (
-	"golang.org/x/exp/constraints"
-	"golang.org/x/exp/slices"
-)
+type Correlater[T any] interface {
+	Correlate(v T) int
+}
 
-type Items[T constraints.Ordered] struct {
+type Items[T Correlater[T]] struct {
 	values []T
 }
 
 func (items *Items[T]) BinarySearch(value T) (int, bool) {
-	return slices.BinarySearch(items.values, value)
+	return BinarySearch(items.values, value)
 }
 
 func (items *Items[T]) Insert(value T) {

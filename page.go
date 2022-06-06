@@ -1,8 +1,6 @@
 package main
 
-import "golang.org/x/exp/constraints"
-
-type Page[T constraints.Ordered] struct {
+type Page[T Correlater[T]] struct {
 	Count int
 	Items Items[T]
 }

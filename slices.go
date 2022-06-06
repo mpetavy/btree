@@ -1,9 +1,5 @@
 package main
 
-import (
-	"golang.org/x/exp/constraints"
-)
-
 func Add[T any](slice *[]T, values ...T) {
 	*slice = append(*slice, values...)
 }
@@ -46,21 +42,21 @@ func PopFront[T any](slice *[]T) T {
 	return Remove(slice, 0)
 }
 
-func BinarySearch[T constraints.Ordered](entries []T, value T) (int, bool) {
+func BinarySearch[T Correlater[T]](entries []T, value T) (int, bool) {
 	low := 0
 	high := len(entries) - 1
 
 	for low <= high {
 		median := (low + high) / 2
 
-		if entries[median] < value {
+		if entries[median].Correlate(value) < 0 {
 			low = median + 1
 		} else {
 			high = median - 1
 		}
 	}
 
-	if low == len(entries) || entries[low] != value {
+	if low == len(entries) || entries[low].Correlate(value) != 0 {
 		return low, false
 	}
 
