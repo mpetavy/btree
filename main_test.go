@@ -1,9 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"github.com/mpetavy/common"
-	"github.com/stretchr/testify/assert"
-	"sort"
 	"testing"
 )
 
@@ -12,10 +11,10 @@ func TestEntries_Insert(t *testing.T) {
 
 	values := make([]int, 0)
 	for i := 0; i < count; i++ {
-		values = append(values, i)
+		values = append(values, i%100)
 	}
 
-	entries := Entries[int]{}
+	items := Items[int]{}
 	slice := make([]int, 0)
 
 	for i := 0; i < count; i++ {
@@ -24,15 +23,17 @@ func TestEntries_Insert(t *testing.T) {
 		value := values[index]
 		values = append(values[:index], values[index+1:]...)
 
-		entries.Insert(value)
+		items.Insert(value)
 
 		slice = append(slice, value)
 	}
 
-	sort.SliceStable(slice, func(i int, j int) bool {
-		return slice[i] < slice[j]
+	//sort.SliceStable(slice, func(i int, j int) bool {
+	//	return slice[i] < slice[j]
+	//
+	//})
+	//
+	//assert.Equal(t, slice, items.Values())
 
-	})
-
-	assert.Equal(t, slice, entries.Values())
+	fmt.Printf("%+v\n", items.Values())
 }
