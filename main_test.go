@@ -3,54 +3,76 @@ package main
 import (
 	"fmt"
 	"github.com/mpetavy/common"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-type Inter struct {
+const (
+	count = 100000
+)
+
+type IntValue struct {
 	Value int
 }
 
-func (inter Inter) Correlate(value Inter) int {
-	if inter.Value < value.Value {
+func (intValue IntValue) Correlate(value IntValue) int {
+	if intValue.Value < value.Value {
 		return -1
 	}
-	if inter.Value > value.Value {
+	if intValue.Value > value.Value {
 		return 1
 	}
 
 	return 0
 }
 
-func TestEntries_Insert(t *testing.T) {
-	count := 100000
+type StringValue struct {
+	Value string
+}
 
-	values := make([]int, 0)
-	for i := 0; i < count; i++ {
-		values = append(values, i)
+func (stringValue StringValue) Correlate(value StringValue) int {
+	if stringValue.Value < value.Value {
+		return -1
+	}
+	if stringValue.Value > value.Value {
+		return 1
 	}
 
-	items := Items[Inter]{}
-	slice := make([]int, 0)
+	return 0
+}
+
+func TestIntValues_Insert(t *testing.T) {
+	items := Items[IntValue]{}
 
 	for i := 0; i < count; i++ {
-		index := common.Rnd(len(values))
+		items.Insert(IntValue{Value: common.Rnd(common.MaxInt)})
+	}
 
-		value := Inter{
-			Value: values[index],
+	lastValue := IntValue{Value: 0}
+	for _, intValue := range items.Values() {
+		fmt.Printf("%+v\n", intValue.Value)
+
+		assert.Truef(t, lastValue.Value <= intValue.Value, "must be smaller")
+	}
+}
+
+func TestStringValues_Insert(t *testing.T) {
+	items := Items[StringValue]{}
+
+	for i := 0; i < count; i++ {
+		str, err := common.RndString(10)
+
+		if err != nil {
+			t.Error(err)
 		}
-		values = append(values[:index], values[index+1:]...)
 
-		items.Insert(value)
-
-		slice = append(slice, value.Value)
+		items.Insert(StringValue{Value: str})
 	}
 
-	//sort.SliceStable(slice, func(i int, j int) bool {
-	//	return slice[i] < slice[j]
-	//
-	//})
-	//
-	//assert.Equal(t, slice, items.Values())
+	lastValue := StringValue{Value: ""}
+	for _, stringValue := range items.Values() {
+		fmt.Printf("%+v\n", stringValue.Value)
 
-	fmt.Printf("%+v\n", items.Values())
+		assert.Truef(t, lastValue.Value <= stringValue.Value, "must be smaller")
+	}
 }
