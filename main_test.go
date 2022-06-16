@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/mpetavy/common"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -31,10 +32,13 @@ type StringValue struct {
 }
 
 func (stringValue StringValue) Correlate(value StringValue) int {
-	if stringValue.Value < value.Value {
+	me := strings.ToUpper(stringValue.Value)
+	other := strings.ToUpper(value.Value)
+
+	if me < other {
 		return -1
 	}
-	if stringValue.Value > value.Value {
+	if me > other {
 		return 1
 	}
 
@@ -45,13 +49,15 @@ func TestIntValues_Insert(t *testing.T) {
 	items := Items[IntValue]{}
 
 	for i := 0; i < count; i++ {
+		if i%1000 == 0 {
+			fmt.Printf("%d\n", i)
+		}
+
 		items.Insert(IntValue{Value: common.Rnd(common.MaxInt)})
 	}
 
 	lastValue := IntValue{Value: 0}
 	for _, intValue := range items.Values() {
-		fmt.Printf("%+v\n", intValue.Value)
-
 		assert.Truef(t, lastValue.Value <= intValue.Value, "must be smaller")
 	}
 }
@@ -60,6 +66,10 @@ func TestStringValues_Insert(t *testing.T) {
 	items := Items[StringValue]{}
 
 	for i := 0; i < count; i++ {
+		if i%1000 == 0 {
+			fmt.Printf("%d\n", i)
+		}
+
 		str, err := common.RndString(10)
 
 		if err != nil {
@@ -71,8 +81,6 @@ func TestStringValues_Insert(t *testing.T) {
 
 	lastValue := StringValue{Value: ""}
 	for _, stringValue := range items.Values() {
-		fmt.Printf("%+v\n", stringValue.Value)
-
 		assert.Truef(t, lastValue.Value <= stringValue.Value, "must be smaller")
 	}
 }

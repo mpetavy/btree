@@ -25,11 +25,5 @@ func (items *Items[T]) Remove(value T) {
 }
 
 func (items *Items[T]) Values() []T {
-	slice := make([]T, 0, len(items.values))
-
-	for _, entry := range items.values {
-		slice = append(slice, entry)
-	}
-
-	return slice
+	return items.values
 }
