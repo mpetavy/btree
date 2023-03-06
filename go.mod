@@ -3,7 +3,7 @@ module btree
 go 1.19
 
 require (
-	github.com/mpetavy/common v1.5.54
+	github.com/mpetavy/common v1.5.55
 	github.com/stretchr/testify v1.8.1
 )
 
