@@ -1,12 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"embed"
 	"github.com/mpetavy/common"
 )
 
+//go:embed go.mod
+var resources embed.FS
+
 func init() {
-	common.Init("btree", "", "", "", "2022", "Btree tryout", "mpetavy", fmt.Sprintf("https://github.com/mpetavy/%s", common.Title()), common.APACHE, nil, nil, nil, run, 0)
+	common.Init("", "", "", "", "Btree tryout", "", "", "", &resources, nil, nil, run, 0)
 }
 
 func run() error {
