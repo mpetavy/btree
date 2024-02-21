@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/mpetavy/common"
 	"github.com/stretchr/testify/assert"
+	"math"
 	"strings"
 	"testing"
 )
@@ -53,7 +54,7 @@ func TestIntValues_Insert(t *testing.T) {
 			fmt.Printf("%d\n", i)
 		}
 
-		items.Insert(IntValue{Value: common.Rnd(common.MaxInt)})
+		items.Insert(IntValue{Value: common.Rnd(math.MaxInt)})
 	}
 
 	lastValue := IntValue{Value: 0}
