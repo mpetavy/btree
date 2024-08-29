@@ -71,11 +71,7 @@ func TestStringValues_Insert(t *testing.T) {
 			fmt.Printf("%d\n", i)
 		}
 
-		str, err := common.RndString(10)
-
-		if err != nil {
-			t.Error(err)
-		}
+		str := common.RndString(10)
 
 		items.Insert(StringValue{Value: str})
 	}
