@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/mpetavy/common"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"math"
 	"strings"
 	"testing"
@@ -59,7 +59,7 @@ func TestIntValues_Insert(t *testing.T) {
 
 	lastValue := IntValue{Value: 0}
 	for _, intValue := range items.Values() {
-		assert.Truef(t, lastValue.Value <= intValue.Value, "must be smaller")
+		require.Truef(t, lastValue.Value <= intValue.Value, "must be smaller")
 	}
 }
 
@@ -78,6 +78,6 @@ func TestStringValues_Insert(t *testing.T) {
 
 	lastValue := StringValue{Value: ""}
 	for _, stringValue := range items.Values() {
-		assert.Truef(t, lastValue.Value <= stringValue.Value, "must be smaller")
+		require.Truef(t, lastValue.Value <= stringValue.Value, "must be smaller")
 	}
 }

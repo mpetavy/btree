@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"testing"
 )
 
@@ -36,7 +36,7 @@ func TestAdd(t *testing.T) {
 		t.Run(fmt.Sprintf("Add %+v", test.values), func(t *testing.T) {
 			Add(&test.slice, test.expected...)
 
-			assert.Equal(t, test.expected, test.slice)
+			require.Equal(t, test.expected, test.slice)
 		})
 	}
 }
@@ -73,7 +73,7 @@ func TestInsert(t *testing.T) {
 		t.Run(fmt.Sprintf("Insert %+v at %d", test.values, i), func(t *testing.T) {
 			Insert(&test.slice, test.index, test.values...)
 
-			assert.Equal(t, test.expected, test.slice)
+			require.Equal(t, test.expected, test.slice)
 		})
 	}
 }
@@ -110,7 +110,7 @@ func TestInsert(t *testing.T) {
 //	}
 //	for _, tt := range tests {
 //		t.Run(tt.name, func(t *testing.T) {
-//			assert.Equalf(t, tt.want, Pop(tt.args.slice), "Pop(%v)", tt.args.slice)
+//			require.Equalf(t, tt.want, Pop(tt.args.slice), "Pop(%v)", tt.args.slice)
 //		})
 //	}
 //}
@@ -128,7 +128,7 @@ func TestInsert(t *testing.T) {
 //	}
 //	for _, tt := range tests {
 //		t.Run(tt.name, func(t *testing.T) {
-//			assert.Equalf(t, tt.want, PopFront(tt.args.slice), "PopFront(%v)", tt.args.slice)
+//			require.Equalf(t, tt.want, PopFront(tt.args.slice), "PopFront(%v)", tt.args.slice)
 //		})
 //	}
 //}
@@ -183,7 +183,7 @@ func TestInsert(t *testing.T) {
 //	}
 //	for _, tt := range tests {
 //		t.Run(tt.name, func(t *testing.T) {
-//			assert.Equalf(t, tt.want, Remove(tt.args.slice, tt.args.index), "Remove(%v, %v)", tt.args.slice, tt.args.index)
+//			require.Equalf(t, tt.want, Remove(tt.args.slice, tt.args.index), "Remove(%v, %v)", tt.args.slice, tt.args.index)
 //		})
 //	}
 //}
@@ -203,7 +203,7 @@ func TestInsert(t *testing.T) {
 //	}
 //	for _, tt := range tests {
 //		t.Run(tt.name, func(t *testing.T) {
-//			assert.Equalf(t, tt.want, RemoveRange(tt.args.slice, tt.args.low, tt.args.high), "RemoveRange(%v, %v, %v)", tt.args.slice, tt.args.low, tt.args.high)
+//			require.Equalf(t, tt.want, RemoveRange(tt.args.slice, tt.args.low, tt.args.high), "RemoveRange(%v, %v, %v)", tt.args.slice, tt.args.low, tt.args.high)
 //		})
 //	}
 //}
